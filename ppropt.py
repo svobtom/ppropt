@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
+
 import argparse
 import json
 from rdkit import Chem
-from Bio import SeqUtils
+#from Bio import SeqUtils
 from Bio.PDB import Select, PDBIO, PDBParser, Superimposer, NeighborSearch
-from os import system, path
-import tqdm
+from os import system, path, listdir
+#import tqdm
 from math import dist
 from glob import glob
 from multiprocessing import Pool
@@ -38,9 +40,9 @@ def load_arguments():
     if not path.isfile(args.PDB_file):
         print(f"\nERROR! File {args.PDB_file} does not exist!\n")
         exit()
-    if path.exists(args.data_dir):
-        exit(f"\n\nError! Directory with name {args.data_dir} exists. "
-             f"Remove existed directory or change --data_dir argument.")
+    if path.isdir(args.data_dir) and listdir(args.data_dir):
+        exit(f"\n\nError! Directory with name {args.data_dir} exists, but it isn't empty. "
+            f"Remove content of the directory or change --data_dir argument.")
     print("ok")
     return args
 
